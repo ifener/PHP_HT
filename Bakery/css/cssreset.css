@@ -1,0 +1,17 @@
+﻿body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
+form,fieldset,input,textarea,p,blockquote,th,td { padding:0;margin:0; }
+body{font:14px/1.5 Microsoft YaHei, sans-serif;}
+a{ text-decoration:none; color:#000; }
+table { border-collapse : collapse; border-spacing:0;}
+fieldset,img { border-style: none;border-color: inherit;border-width:0;}
+address,caption,cite,code,dfn,em,strong,th,var {
+font-weight: normal;font-style: normal;
+}
+ol,ul { list-style: none; }
+caption,th { text-align: left; }
+h1,h2,h3,h4,h5,h6 { font-weight: normal;font-size: 100%; }
+q:before,q:after { content:''; } 
+section, article, aside, header, footer, nav, dialog, figure {
+    display: block;
+}
+.clearfix{clear:both; overflow:hidden; height:0; width:0; font-size:0;}
