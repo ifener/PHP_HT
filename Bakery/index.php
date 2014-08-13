@@ -12,14 +12,24 @@
 <link href="css/mobiscroll.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
 #logo{ text-align:center; padding-top:10px;}
-#local{border-top:1px solid #6699ff; padding-top:5px;}
+#local{border-top:2px solid #396b9e; padding-top:5px;}
 table{width:100%;}
 table th{font-weight:bold; padding:5px 0;text-align:center; background:#004a80; color:#fff; text-shadow:none;}
 table td{padding:2px 0; text-align:center;text-shadow:none; border-bottom:1px dotted #666;}
 table tr:nth-child(odd){background:#eee;}
-.empty{border:1px solid #963; border-radius:5px; padding:10px;width:90%; margin:0 auto; color:red;}
+.empty{ padding:10px;width:90%; margin:0 auto; color:red;}
 .title{text-align:center; padding-top:10px; font-size:18px; font-weight:bold;}
 .attendances{width:90%; margin:0 auto; border:1px solid #996636; border-radius:5px; overflow:hidden; box-shadow:0 0 10px rgba(160,160,160,.89);}
+.exit{position:fixed; left:50%; z-index:99; border-radius:5px; box-shadow:0 0 5px rgba(255,255,255,.66); margin-left:-100px; top:40%; width:200px; height:100px; background:#fff; border:1px solid #F66;display:none;}
+.exit h2{background:#F66; text-align:center; color:#fff; padding:2px 3px; box-shadow:0 2px 5px rgba(0,0,0,.36);}
+.exit a.logoff{display:block;padding:25px 10px 10px; text-align:center;}
+.exit a.logoff:hover{color:#F33; position:relative; top:1px; font-weight:bold;}
+.exit a.close{width:25px; height:25px; line-height:25px; border-radius:25px; background:#d74d54; position:absolute; right:-10px; top:-10px; color:#fff; font-size:18px; text-align:center; box-shadow:0 0 5px rgba(255,255,255,.66); 
+-webkit-transition:all 0.5s linear;-moz-transition:all 0.5s linear;
+}
+.exit a.close:hover{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);}
+
+.pop{position:absolute; z-index:9; left:0; top:0; bottom:0; right:0; width:100%; height:100%; background:#000; opacity:0.5;display:none;}
 </style>
 <script type="text/jscript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/jscript" src="js/jquery.mobile-1.3.0.min.js"></script>
@@ -39,7 +49,13 @@ table tr:nth-child(odd){background:#eee;}
 			  empty:"<div class='empty'>暫無打卡數據...</div>"
 	  };
 
+	  var loading={
+			  show:function(){$(".pop,.exit").fadeIn();},
+			  hide:function(){$(".pop,.exit").fadeOut();}
+	  };
+
 	  function loadData(){
+		  
 		  $.getJSON("attendance.php",{dt:function(){return $("#dt").val();},id:function(){
 			     return $("#unit").val();
 			  }
@@ -76,6 +92,7 @@ table tr:nth-child(odd){background:#eee;}
 					   //$("#other>.attendances").html(fragment.empty);
 					   $("#other").hide();
 				   }
+				   loading.hide();
 			  });
 		 },500);
 	  }
@@ -104,6 +121,7 @@ table tr:nth-child(odd){background:#eee;}
 
 
        $("#search").click(function(){
+    	   loading.show();
     	   loadData();
        });
 	  
@@ -112,6 +130,14 @@ table tr:nth-child(odd){background:#eee;}
 </head>
   
 <body>
+	<div class="pop"></div>
+	<div class="exit">
+	  <h2>提示</h2>
+	  <a href="javaacript:void(0)" style="display:none;" class="close">×</a>
+	  <div>
+	    <a href="javascript:;" class="logoff" title="數據載入中">小二正在努力的載入數據</a>
+	  </div>
+	</div>
   <div id="logo"><img src="images/bakery.png" /></div>
   <div style="text-align:center; padding:10px;">
 	  <?php
